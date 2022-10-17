@@ -1,4 +1,3 @@
-import { EyeSlash } from 'assets';
 import React from 'react';
 import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
@@ -39,9 +38,6 @@ const Input: React.FC<InputProps> = ({ label, ...props }) => {
     <InputGroup>
       <Label>{label}</Label>
       <CustomInput {...props} />
-      <span>
-        <img src={EyeSlash} style={{ width: 40 }} />
-      </span>
     </InputGroup>
   );
 };
