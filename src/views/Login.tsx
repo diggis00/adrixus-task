@@ -72,7 +72,6 @@ const Login = () => {
     setLoading(false);
   };
 
-  console.log('Loading', loading);
   return (
     <Container>
       <h2>Login</h2>

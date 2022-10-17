@@ -4,6 +4,8 @@ import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BASE_URL, URL } from 'services/urls';
+import { clearToken } from 'utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 interface PageItemProps {
   active?: boolean;
@@ -52,9 +54,14 @@ const Dashboard = () => {
 
   const { items, requestSort, sortConfig } = useSort(users);
 
+  const navigate = useNavigate();
   useEffect(() => {
     getUsers();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
 
   const getUsers = () => {
     const token = localStorage.getItem('user_token');
@@ -67,10 +74,6 @@ const Dashboard = () => {
       })
       .catch((err) => alert(err.response.data.message));
   };
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search]);
 
   const handleSort = (column: string) => requestSort(column);
 
@@ -117,6 +120,11 @@ const Dashboard = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
+
+  const handleLogout = () => {
+    clearToken();
+    navigate('/login');
+  };
   const PageNumbers = () => {
     return (
       <PageGroup>
@@ -143,7 +151,9 @@ const Dashboard = () => {
     <Container>
       <Header>
         <h1>Dashboard</h1>
-        <Button style={{ width: 100 }}>Logout</Button>
+        <Button style={{ width: 100 }} onClick={handleLogout}>
+          Logout
+        </Button>
       </Header>
 
       <Search value={search} onChange={handleSearch} />
